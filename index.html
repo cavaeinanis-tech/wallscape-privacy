@@ -4,12 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy — Inanis Wallscape</title>
-<meta name="description" content="Privacy policy for Inanis Wallscape, a live website wallpaper for Android. Collects nothing, stores nothing on any server, transmits nothing to the developer.">
+<meta name="description" content="Privacy policy for Inanis Wallscape, a live website wallpaper for Android. No servers, no analytics, nothing transmitted to the developer.">
 <meta name="robots" content="index, follow">
 <style>
-  /* No webfonts, no analytics, no third-party requests of any kind: a privacy
-     policy that phoned somewhere to render itself would be contradicting its
-     own first paragraph. */
   :root {
     color-scheme: light dark;
     --bg: #ffffff; --fg: #15181d; --muted: #5b6573;
@@ -34,6 +31,7 @@
     font-size: 1.2rem; margin: 2.5rem 0 .75rem; padding-top: 1.25rem;
     border-top: 1px solid var(--rule);
   }
+  h3 { font-size: 1.03rem; margin: 1.75rem 0 .5rem; }
   p { margin: 0 0 1rem; }
   a { color: var(--link); }
   .meta {
@@ -51,12 +49,12 @@
     margin: 1rem 0; padding: .6rem 1rem; border-left: 3px solid var(--rule);
     background: var(--surface); color: var(--muted);
   }
-  blockquote p { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  blockquote p { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
   /* Wide tables scroll inside their own box; the page itself never does. */
   .scroll { overflow-x: auto; margin: 0 0 1.25rem; }
   table { border-collapse: collapse; width: 100%; font-size: .92rem; }
   th, td { text-align: left; vertical-align: top; padding: .55rem .7rem; border-bottom: 1px solid var(--rule); }
-  th { font-weight: 600; white-space: nowrap; }
+  th { font-weight: 600; }
   footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .85rem; }
 </style>
 </head>
@@ -64,7 +62,7 @@
 <h1>Inanis Wallscape — Privacy Policy</h1>
 <div class="meta">
   <div><strong>Effective:</strong> 15 November 2026</div>
-  <div><strong>Text last revised:</strong> 8 November 2026</div>
+  <div><strong>Last revised:</strong> 15 November 2026</div>
   <div><strong>Application:</strong> Inanis Wallscape (<code>com.cavaeinanis.wallscape</code>)</div>
   <div><strong>Developer:</strong> Cavae Inanis Labs</div>
   <div><strong>Contact:</strong> <a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a></div>
@@ -72,26 +70,44 @@
 
 <h2>The short version</h2>
 
-<p>Inanis Wallscape collects nothing, stores nothing on any server, and transmits nothing to the developer or to any third party. Everything it knows stays on your device. There is no account, no analytics SDK, no crash-reporting service, and no advertising identifier.</p>
+<p>Inanis Wallscape has no servers. It collects nothing about you, sends nothing to the developer or to any third party, and has no account, no analytics SDK, no crash-reporting service and no advertising identifier.</p>
 
-<p>The only network traffic Inanis Wallscape produces is your device loading the websites <strong>you</strong> asked it to display, directly from those websites — exactly as if you had typed the address into a browser.</p>
+<p>The only network traffic it produces is your device loading the websites <strong>you</strong> asked it to display, directly from those websites — exactly as if you had typed the address into a browser.</p>
+
+<p>It does keep things <strong>on your device</strong>: your settings, the page it was last showing, a small diagnostic log, and a downscaled snapshot of each page so the settings screen can show you a preview. All of it lives in the app's private storage, all of it is removed when you uninstall, and none of it is ever transmitted anywhere. The next section lists every item, by file.</p>
 
 <h2>What Inanis Wallscape stores on your device</h2>
 
-<p>All of this is stored locally in Inanis Wallscape's private app storage, and is removed when you uninstall the app.</p>
+<p>Everything below is in the app's private storage, unreadable by other apps, and deleted when you uninstall. Nothing here is uploaded. The paths are real: this list was checked against a running release build, not against the source.</p>
 
 <div class="scroll"><table>
-<thead><tr><th>Data</th><th>Where</th><th>Why</th></tr></thead>
+<thead><tr><th>What</th><th>Where</th><th>Why</th></tr></thead>
 <tbody>
-<tr><td>Website addresses and per-site settings</td><td>App-private <code>SharedPreferences</code></td><td>To know what to display</td></tr>
-<tr><td>Cookies, local storage and cache for the sites you display</td><td>The app's private WebView data directory</td><td>So sites stay logged in and behave normally</td></tr>
-<tr><td>HTTP Basic Auth usernames and passwords, if you enter them</td><td><code>EncryptedSharedPreferences</code>, AES-256-GCM, key held in the Android Keystore</td><td>To sign in to sites that require it</td></tr>
-<tr><td>Which home screen page is showing</td><td>In memory only, never written to disk</td><td>To pick which page's website to show</td></tr>
-<tr><td>The last page number, so a restart doesn't jump you to page 1</td><td>App-private <code>SharedPreferences</code></td><td>To restore the page the wallpaper was showing</td></tr>
-<tr><td>Your chosen fallback image, if any</td><td>A reference to the image you picked, via Android's document permission system</td><td>To display it</td></tr>
+<tr><td>Website addresses, per-site settings, and which page shows what</td><td><code>shared_prefs/webwall.xml</code>, in <code>config_json</code></td><td>To know what to display</td></tr>
+<tr><td>HTTP Basic Auth usernames and passwords, if you enter them</td><td><code>shared_prefs/webwall_secrets.xml</code> — <code>EncryptedSharedPreferences</code>, AES-256-GCM, key held in the Android Keystore. Created only if you enter credentials</td><td>To sign in to sites that require it</td></tr>
+<tr><td>Cookies, local storage and cache for the sites you display</td><td><code>app_webview/</code> — Android's WebView keeps these, in our sandbox, exactly as a browser would</td><td>So sites stay logged in and behave normally</td></tr>
+<tr><td><strong>A snapshot of each page</strong>, as a downscaled image</td><td><code>files/page_thumbs/p&lt;N&gt;.webp</code> — 324 px wide, WebP quality 72, at most one per page per minute</td><td>So the settings screen can show you what each page looks like</td></tr>
+<tr><td>The page the wallpaper is showing, the source that reported it, when, and a boot stamp</td><td><code>shared_prefs/webwall.xml</code> (<code>last_page</code>, <code>last_page_source</code>, <code>last_page_at</code>, <code>last_page_boot</code>)</td><td>So a restart puts the wallpaper back on the page you were on instead of jumping to page 1</td></tr>
+<tr><td>A diagnostic log of what moves the page: page changes and what reported them, swipe geometry (start coordinates, distance, duration, speed), Home presses, wallpaper shown/hidden, screen on/off</td><td><code>files/page_events.log</code>, last 500 events</td><td>So a wrong page reported in the morning can be explained rather than guessed at</td></tr>
+<tr><td>The same log's important lines, kept longer</td><td><code>files/page_landmarks.log</code>, last 400 events</td><td>Restarts and page changes outlive ordinary swipe chatter</td></tr>
+<tr><td>Mismatch reports, if you two-finger-tap to correct the page: which page was shown, which you corrected it to, and the 30 preceding log events</td><td><code>files/page_mismatches.json</code>, up to 80 reports. Created only if you use that gesture</td><td>To find out why the page was wrong</td></tr>
+<tr><td>What your launcher supports — whether it reports wallpaper offsets, and how many pages it reported</td><td><code>shared_prefs/webwall.xml</code> (<code>offsets_supported</code>, <code>detected_page_count</code>)</td><td>To warn you before you configure pages your launcher cannot drive</td></tr>
+<tr><td>Whether the engine is running, the last engine error, and whether the wallpaper was replaced or killed</td><td><code>shared_prefs/webwall.xml</code> (<code>engine_alive</code>, <code>last_engine_error</code>, <code>wallpaper_was_active</code>, <code>wallpaper_reset_at</code>, <code>wallpaper_stopped_by_user</code>, <code>wallpaper_active_at_update</code>, <code>ever_ran</code>)</td><td>To tell "you changed your wallpaper" from "something killed us", and to offer to put it back</td></tr>
+<tr><td>A reference to any picture you chose — for a page, for the lock screen, or for when Inanis Wallscape is off</td><td><code>config_json</code> holds the URI you picked, via Android's document permission system. <strong>The image itself is never copied into the app</strong></td><td>To display it</td></tr>
+<tr><td>The system's lock-screen wallpaper id, and whether you dismissed the notice about it</td><td><code>shared_prefs/webwall.xml</code> (<code>lock_wallpaper_id</code>, <code>lock_reset_dismissed</code>)</td><td>To notice when Android drops the lock-screen picture you set, which some OS updates do</td></tr>
+<tr><td>Which explanations you have already seen or dismissed</td><td><code>shared_prefs/webwall.xml</code> (<code>onboarded</code>, <code>oneui_tip_seen</code>, <code>resync_tip_seen</code>, <code>foreground_tip_shown</code>, <code>precision_offer_dismissed</code>, <code>precision_was_enabled</code>, <code>precision_paused</code>, <code>precision_off_by_user</code>, <code>fallback_offer_answered</code>, <code>advanced_protection_fallback</code>)</td><td>So the app does not repeat itself</td></tr>
+<tr><td>Whether Google Play reported the Pro purchase as owned — a single true/false</td><td><code>shared_prefs/webwall.xml</code> (<code>pro_purchased</code>)</td><td>So Pro keeps working at boot and offline, before Play Billing has connected</td></tr>
 </tbody></table></div>
 
+<p>Android's own libraries also keep private files in the same sandbox — WebView's storage above, and a baseline-profile marker from <code>ProfileInstaller</code>. Those are the platform's, not ours, and are likewise local.</p>
+
 <p>Inanis Wallscape never reads your photo library, contacts, location, messages, call logs, or the contents of other apps.</p>
+
+<h3>About the page snapshots</h3>
+
+<p>This is the one stored item that contains website content rather than settings, so it is worth being plain about: if a page shows a dashboard with personal information on it, a 324-pixel-wide image of that dashboard is written to the app's private storage, so the settings screen can show you a preview of each page instead of a blank tile.</p>
+
+<p>Snapshots are taken only while the wallpaper is actually visible, at most once per page per minute, and never for pages set to show a picture or nothing. A page's snapshot is deleted when you change what that page shows, and snapshots for pages beyond your configured page count are removed. All of them go when you uninstall.</p>
 
 <h2>Websites you choose to display</h2>
 
@@ -109,9 +125,17 @@
 
 <blockquote><p><code>Page 3 of 5</code></p></blockquote>
 
-<p>Inanis Wallscape keeps 3 and 5. That is the whole of it. The numbers stay in memory, are never written down, and are never sent anywhere.</p>
+<p>Inanis Wallscape keeps 3 and 5. That is the whole of it.</p>
 
-<p><strong>What it cannot access:</strong> the service is declared with <code>canRetrieveWindowContent="false"</code>. It is therefore technically incapable of reading the content of your screen, the text you type, your passwords, which apps you open, or anything inside any app. It is also scoped to a single package — your current default launcher — so it receives no events from any other app, and it requests only two event types (<code>typeViewSelected</code>, <code>typeViewScrolled</code>). It requests no accessibility flags: no touch exploration, no gesture interception, no ability to see other windows.</p>
+<p><strong>What happens to those two numbers.</strong> The page number is <strong>saved on your device</strong>, because that is the point of it: <code>last_page</code> in the app's private preferences, so a restart puts the wallpaper back on the page you were on, and a line in <code>files/page_events.log</code> so a page that comes back wrong can be explained. Page counts are kept the same way. Both are local to your phone and are never transmitted anywhere — see the table above for everything that is stored and where.</p>
+
+<p><strong>What it cannot access:</strong> the service is declared with <code>canRetrieveWindowContent="false"</code>. It is therefore technically incapable of reading the content of your screen, the text you type, your passwords, which apps you open, or anything inside any app. It requests exactly two event types (<code>typeViewSelected</code>, <code>typeViewScrolled</code>) and <strong>no accessibility flags at all</strong>: no touch exploration, no gesture interception, no <code>flagRetrieveInteractiveWindows</code>, no key-event filtering, no ability to see other windows.</p>
+
+<p><strong>Which apps it receives events from.</strong> The manifest declares a fixed list of 13 launcher packages, and nothing else is ever in scope:</p>
+
+<blockquote><p><code>com.sec.android.app.launcher</code>, <code>com.google.android.apps.nexuslauncher</code>, <code>com.android.launcher3</code>, <code>app.lawnchair</code>, <code>com.teslacoilsw.launcher</code>, <code>net.oneplus.launcher</code>, <code>com.nothing.launcher</code>, <code>projekt.launcher</code>, <code>com.actionlauncher.playstore</code>, <code>com.miui.home</code>, <code>com.microsoft.launcher</code>, <code>ginlemon.flowerfree</code>, <code>bitpit.launcher</code></p></blockquote>
+
+<p>When the service connects it narrows that to the <strong>single package that is your current default launcher</strong>, so in normal use it receives events from one app. If your default launcher cannot be determined, the declared list above stands.</p>
 
 <p><strong>About the warning Android shows.</strong> When you turn Precision mode on, Android shows its standard warning that this app can "control your device." Android shows that same warning for every app that uses this feature. Inanis Wallscape's setting is built so it physically can't read screen content.</p>
 
@@ -121,9 +145,21 @@
 
 <p>Inanis Wallscape declares <code>android:isAccessibilityTool="false"</code>, because this is a non-accessibility use of the accessibility API and Android requires that to be stated.</p>
 
-<h2>Diagnostics</h2>
+<h2>Diagnostics, and the three things you can copy</h2>
 
-<p>The <strong>Copy diagnostics</strong> button copies a plain-text report to your clipboard so you can paste it into a support email, if you choose to send one. It contains device model, Android version, launcher package, Inanis Wallscape's own settings, and site names and addresses. <strong>It never contains your Basic Auth credentials or any cookie.</strong> Nothing is sent anywhere unless you send it yourself.</p>
+<p>Nothing is ever sent anywhere automatically. The Diagnostics screen has three buttons, each of which copies text to your clipboard so <strong>you</strong> can paste it into a support email if you choose to:</p>
+
+<p>- <strong>Copy diagnostics</strong> — device model, Android version, launcher package, Inanis Wallscape's own settings and state, and your site names <strong>and their addresses</strong>. - <strong>Copy log</strong> — the page event log described above: page changes, swipe geometry, visibility and screen events, with timestamps. - <strong>Copy mismatch reports</strong> — the mismatch records described above, if any.</p>
+
+<p><strong>None of the three ever contains your Basic Auth credentials or any cookie.</strong> Credentials live in encrypted storage that no export reads.</p>
+
+<p>The mismatch reports can be cleared from that screen. The two logs are ring buffers that overwrite themselves (500 and 400 entries) and are removed when you uninstall; there is no in-app button to clear them.</p>
+
+<h2>The lock screen, and the picture for when Inanis Wallscape is off</h2>
+
+<p>Inanis Wallscape can set a still picture you choose as your <strong>lock screen</strong> wallpaper, using Android's own wallpaper API. That writes an image to the system's lock wallpaper; it is the same thing the system wallpaper picker does, and it happens only when you ask for it. The app records the system's lock wallpaper id (<code>lock_wallpaper_id</code>) so it can notice when an OS update drops that picture and offer to put it back.</p>
+
+<p>Likewise, when you switch Inanis Wallscape off, it can set a picture you chose as your home wallpaper so the screen is not left empty. Both features use the <code>SET_WALLPAPER</code> permission below and touch nothing else.</p>
 
 <h2>Purchases</h2>
 
@@ -137,30 +173,54 @@
 
 <h2>Permissions</h2>
 
+<p>These are the permissions the released app declares, read from the signed build's merged manifest:</p>
+
 <div class="scroll"><table>
 <thead><tr><th>Permission</th><th>Why</th></tr></thead>
 <tbody>
 <tr><td><code>INTERNET</code></td><td>Loading the websites you choose</td></tr>
 <tr><td><code>ACCESS_NETWORK_STATE</code></td><td>Knowing whether to retry a failed load</td></tr>
-<tr><td><code>BIND_WALLPAPER</code></td><td>Declared on the wallpaper service so only Android can bind it</td></tr>
-<tr><td><code>BIND_ACCESSIBILITY_SERVICE</code></td><td>Declared on the optional service so only Android can bind it</td></tr>
+<tr><td><code>SET_WALLPAPER</code></td><td>Setting a still picture as your lock screen, and putting your chosen picture back when Inanis Wallscape is switched off</td></tr>
+<tr><td><code>QUERY_ADVANCED_PROTECTION_MODE</code></td><td>Reading whether Android's Advanced Protection is on, so Precision mode is not offered where Android will refuse it. A "normal" permission: no prompt, no access to data</td></tr>
 <tr><td><code>com.android.vending.BILLING</code></td><td>Added by the Play Billing library for the optional one-time purchase</td></tr>
+<tr><td><code>com.cavaeinanis.wallscape.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION</code></td><td>Defined and used by the app on itself, added by an AndroidX library, so a broadcast receiver the app registers at runtime cannot be reached by other apps</td></tr>
 </tbody></table></div>
 
-<p>Inanis Wallscape requests no runtime permissions at all.</p>
+<p>Inanis Wallscape requests <strong>no runtime permissions at all</strong> — nothing that shows you a permission prompt. It does not declare <code>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code>; it links you to Android's own battery settings instead.</p>
+
+<p>Three further permissions appear on the app's <strong>own components</strong>, where they exist to keep other apps <em>out</em>. They are requirements on whoever binds those components, and only Android itself qualifies:</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Guard</th><th>On what</th></tr></thead>
+<tbody>
+<tr><td><code>BIND_WALLPAPER</code></td><td>The wallpaper service</td></tr>
+<tr><td><code>BIND_ACCESSIBILITY_SERVICE</code></td><td>The optional Precision mode service</td></tr>
+<tr><td><code>BIND_QUICK_SETTINGS_TILE</code></td><td>The Quick Settings tile</td></tr>
+</tbody></table></div>
 
 <h2>Cleartext HTTP</h2>
 
 <p>Inanis Wallscape permits plain <code>http://</code> connections because its core use case is self-hosted LAN and VPN dashboards (Home Assistant, Grafana, Pi-hole, Proxmox) which serve HTTP on private addresses and cannot hold a publicly-trusted certificate. This only ever applies to addresses you typed in yourself.</p>
 
+<h2>Development builds</h2>
+
+<p>Debug builds of Inanis Wallscape have three developer overrides — a Pro unlock, a switch that makes the app ignore launcher wallpaper offsets, and a file that fakes Advanced Protection being on. <strong>None of them is reachable in the released app</strong>, and this is verified on the shipped artifact rather than asserted: the release build's dex contains no caller for either preference, and the file name does not appear in it at all. <code>tools/release_verify.sh</code> re-checks this on every release.</p>
+
+<h2>Deleting your data</h2>
+
+<p>Uninstalling Inanis Wallscape removes everything listed above — preferences, encrypted credentials, WebView cookies and cache, snapshots and logs. Android deletes the app's private storage with the app. Clearing the app's storage from Android settings has the same effect without uninstalling.</p>
+
+<p>A picture you chose stays wherever it already lived; Inanis Wallscape only ever held a reference to it. A lock-screen or home wallpaper you asked Inanis Wallscape to set stays set, because it belongs to the system once applied — you can change it in Android's wallpaper settings.</p>
+
 <h2>Changes</h2>
 
-<p>Any change to this policy will be published with the app update that makes it, and the date above will change.</p>
+<p>Any change to this policy will be published with the app update that makes it, and the dates above will change.</p>
 
 <h2>Contact</h2>
 
-<p><a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a></p>
+<p>cavae.inanis@gmail.com</p>
 
-<footer>Inanis Wallscape — Privacy Policy. Effective 15 November 2026. Questions: <a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a>.</footer>
+<footer>Inanis Wallscape — Privacy Policy. Effective 15 November 2026. Questions:
+<a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a>.</footer>
 </body>
 </html>
