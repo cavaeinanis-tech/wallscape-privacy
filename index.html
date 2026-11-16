@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Inanis Wallscape</title>
+<meta name="description" content="Privacy policy for Inanis Wallscape, a live website wallpaper for Android. Collects nothing, stores nothing on any server, transmits nothing to the developer.">
+<meta name="robots" content="index, follow">
+<style>
+  /* No webfonts, no analytics, no third-party requests of any kind: a privacy
+     policy that phoned somewhere to render itself would be contradicting its
+     own first paragraph. */
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff; --fg: #15181d; --muted: #5b6573;
+    --rule: #e2e6ec; --surface: #f6f8fa; --link: #0b5bd3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1216; --fg: #e8ecf2; --muted: #9aa4b2;
+      --rule: #262c35; --surface: #161b21; --link: #79b2ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0 auto; padding: 2.5rem 1.25rem 4rem; max-width: 46rem;
+    background: var(--bg); color: var(--fg);
+    font: 1rem/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+  }
+  h1 { font-size: 1.75rem; line-height: 1.25; margin: 0 0 .5rem; }
+  h2 {
+    font-size: 1.2rem; margin: 2.5rem 0 .75rem; padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+  p { margin: 0 0 1rem; }
+  a { color: var(--link); }
+  .meta {
+    margin: 0 0 2rem; padding: .9rem 1rem; border-radius: 8px;
+    background: var(--surface); color: var(--muted); font-size: .9rem;
+  }
+  .meta div + div { margin-top: .3rem; }
+  .meta strong { color: var(--fg); font-weight: 600; }
+  code {
+    background: var(--surface); padding: .1em .35em; border-radius: 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .88em; overflow-wrap: anywhere;
+  }
+  blockquote {
+    margin: 1rem 0; padding: .6rem 1rem; border-left: 3px solid var(--rule);
+    background: var(--surface); color: var(--muted);
+  }
+  blockquote p { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  /* Wide tables scroll inside their own box; the page itself never does. */
+  .scroll { overflow-x: auto; margin: 0 0 1.25rem; }
+  table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+  th, td { text-align: left; vertical-align: top; padding: .55rem .7rem; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 600; white-space: nowrap; }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<h1>Inanis Wallscape — Privacy Policy</h1>
+<div class="meta">
+  <div><strong>Effective:</strong> 15 November 2026</div>
+  <div><strong>Text last revised:</strong> 8 November 2026</div>
+  <div><strong>Application:</strong> Inanis Wallscape (<code>com.cavaeinanis.wallscape</code>)</div>
+  <div><strong>Developer:</strong> Cavae Inanis Labs</div>
+  <div><strong>Contact:</strong> <a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a></div>
+</div>
+
+<h2>The short version</h2>
+
+<p>Inanis Wallscape collects nothing, stores nothing on any server, and transmits nothing to the developer or to any third party. Everything it knows stays on your device. There is no account, no analytics SDK, no crash-reporting service, and no advertising identifier.</p>
+
+<p>The only network traffic Inanis Wallscape produces is your device loading the websites <strong>you</strong> asked it to display, directly from those websites — exactly as if you had typed the address into a browser.</p>
+
+<h2>What Inanis Wallscape stores on your device</h2>
+
+<p>All of this is stored locally in Inanis Wallscape's private app storage, and is removed when you uninstall the app.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Data</th><th>Where</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Website addresses and per-site settings</td><td>App-private <code>SharedPreferences</code></td><td>To know what to display</td></tr>
+<tr><td>Cookies, local storage and cache for the sites you display</td><td>The app's private WebView data directory</td><td>So sites stay logged in and behave normally</td></tr>
+<tr><td>HTTP Basic Auth usernames and passwords, if you enter them</td><td><code>EncryptedSharedPreferences</code>, AES-256-GCM, key held in the Android Keystore</td><td>To sign in to sites that require it</td></tr>
+<tr><td>Which home screen page is showing</td><td>In memory only, never written to disk</td><td>To pick which page's website to show</td></tr>
+<tr><td>The last page number, so a restart doesn't jump you to page 1</td><td>App-private <code>SharedPreferences</code></td><td>To restore the page the wallpaper was showing</td></tr>
+<tr><td>Your chosen fallback image, if any</td><td>A reference to the image you picked, via Android's document permission system</td><td>To display it</td></tr>
+</tbody></table></div>
+
+<p>Inanis Wallscape never reads your photo library, contacts, location, messages, call logs, or the contents of other apps.</p>
+
+<h2>Websites you choose to display</h2>
+
+<p>When Inanis Wallscape displays a website, your device contacts that website. That website sees what it would see from any browser — your IP address, your user agent, and any cookies you already have with it. Inanis Wallscape does not add anything to those requests and does not observe them on your behalf. Those sites have their own privacy policies.</p>
+
+<p>The optional per-site "Block ads and trackers" setting <em>reduces</em> this by refusing to load requests to a built-in list of advertising and analytics domains. It is off by default.</p>
+
+<h2>Precision mode (the optional accessibility service)</h2>
+
+<p>Inanis Wallscape includes an <strong>optional, off-by-default</strong> feature called <strong>Precision mode</strong>, which is implemented as an accessibility service named <em>Inanis Wallscape</em>.</p>
+
+<p>Samsung doesn't tell wallpapers which home page you're on. Precision mode lets Inanis Wallscape see only the page number, nothing else. It can't read your screen, your messages, or your passwords, and nothing leaves your phone.</p>
+
+<p><strong>What exactly does it see?</strong> Your launcher already announces the page out loud for screen reader users. Precision mode reads that one short line and takes two numbers out of it:</p>
+
+<blockquote><p><code>Page 3 of 5</code></p></blockquote>
+
+<p>Inanis Wallscape keeps 3 and 5. That is the whole of it. The numbers stay in memory, are never written down, and are never sent anywhere.</p>
+
+<p><strong>What it cannot access:</strong> the service is declared with <code>canRetrieveWindowContent="false"</code>. It is therefore technically incapable of reading the content of your screen, the text you type, your passwords, which apps you open, or anything inside any app. It is also scoped to a single package — your current default launcher — so it receives no events from any other app, and it requests only two event types (<code>typeViewSelected</code>, <code>typeViewScrolled</code>). It requests no accessibility flags: no touch exploration, no gesture interception, no ability to see other windows.</p>
+
+<p><strong>About the warning Android shows.</strong> When you turn Precision mode on, Android shows its standard warning that this app can "control your device." Android shows that same warning for every app that uses this feature. Inanis Wallscape's setting is built so it physically can't read screen content.</p>
+
+<p>About a day later, Android sends a reminder asking you to review Inanis Wallscape's access. That's routine — Android does it for every app that uses this feature, and the reminder can't be turned off. Opening it or swiping it away both stop it. It comes back if Precision mode is switched off and on again, or after some app updates, so you may see it a few times early on. Keep Precision mode on to keep exact page tracking.</p>
+
+<p><strong>Control:</strong> it is off until you explicitly enable it, after a full-screen explanation inside the app. Inanis Wallscape gives you a one-tap route back to the same Android setting to turn it off again, and page detection falls back to swipe detection automatically — nothing else changes.</p>
+
+<p>Inanis Wallscape declares <code>android:isAccessibilityTool="false"</code>, because this is a non-accessibility use of the accessibility API and Android requires that to be stated.</p>
+
+<h2>Diagnostics</h2>
+
+<p>The <strong>Copy diagnostics</strong> button copies a plain-text report to your clipboard so you can paste it into a support email, if you choose to send one. It contains device model, Android version, launcher package, Inanis Wallscape's own settings, and site names and addresses. <strong>It never contains your Basic Auth credentials or any cookie.</strong> Nothing is sent anywhere unless you send it yourself.</p>
+
+<h2>Purchases</h2>
+
+<p>Inanis Wallscape offers one optional one-time in-app purchase, "Pro". It is processed entirely by Google Play — Inanis Wallscape never sees or stores a payment method, and there is no account to create.</p>
+
+<p>What Inanis Wallscape stores locally is a single boolean: whether Play reported the purchase as owned. It is cached on the device so that Pro features keep working at boot before Google Play Billing has connected, and while offline.</p>
+
+<h2>Children</h2>
+
+<p>Inanis Wallscape is not directed at children and collects no personal data from anyone.</p>
+
+<h2>Permissions</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>Permission</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><code>INTERNET</code></td><td>Loading the websites you choose</td></tr>
+<tr><td><code>ACCESS_NETWORK_STATE</code></td><td>Knowing whether to retry a failed load</td></tr>
+<tr><td><code>BIND_WALLPAPER</code></td><td>Declared on the wallpaper service so only Android can bind it</td></tr>
+<tr><td><code>BIND_ACCESSIBILITY_SERVICE</code></td><td>Declared on the optional service so only Android can bind it</td></tr>
+<tr><td><code>com.android.vending.BILLING</code></td><td>Added by the Play Billing library for the optional one-time purchase</td></tr>
+</tbody></table></div>
+
+<p>Inanis Wallscape requests no runtime permissions at all.</p>
+
+<h2>Cleartext HTTP</h2>
+
+<p>Inanis Wallscape permits plain <code>http://</code> connections because its core use case is self-hosted LAN and VPN dashboards (Home Assistant, Grafana, Pi-hole, Proxmox) which serve HTTP on private addresses and cannot hold a publicly-trusted certificate. This only ever applies to addresses you typed in yourself.</p>
+
+<h2>Changes</h2>
+
+<p>Any change to this policy will be published with the app update that makes it, and the date above will change.</p>
+
+<h2>Contact</h2>
+
+<p><a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a></p>
+
+<footer>Inanis Wallscape — Privacy Policy. Effective 15 November 2026. Questions: <a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a>.</footer>
+</body>
+</html>
