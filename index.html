@@ -64,7 +64,7 @@
 <h1>Inanis Wallscape — Privacy Policy</h1>
 <div class="meta">
   <div><strong>Effective:</strong> 15 November 2026</div>
-  <div><strong>Last revised:</strong> 15 November 2026</div>
+  <div><strong>Last revised:</strong> 18 November 2026</div>
   <div><strong>Application:</strong> Inanis Wallscape (<code>com.cavaeinanis.wallscape</code>)</div>
   <div><strong>Developer:</strong> Cavae Inanis Labs</div>
   <div><strong>Contact:</strong> <a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a></div>
@@ -72,9 +72,13 @@
 
 <h2>The short version</h2>
 
-<p>Inanis Wallscape has no servers. It collects nothing about you, sends nothing to the developer or to anyone else, and has no account, no analytics, no crash reporting and no advertising identifier.</p>
+<p>Inanis Wallscape has no servers. Nothing about you is sent to the developer — not ever, not in any form — and there is no account, no analytics, no crash reporting and no advertising identifier.</p>
+
+<p>There is one exception, and it is not ours: the <strong>Google Play billing library</strong>, which the app uses for its optional one-time purchase, sends its own diagnostic records to Google. That is Google's code doing Google's logging; we never see it and cannot switch it off. It is described under <em>Purchases</em> below, and it is why the app's Play listing says it collects "Purchase history" and "Diagnostics".</p>
 
 <p>The only network traffic it creates is your phone loading the websites <strong>you</strong> chose, directly from those websites — exactly as if you had typed the address into a browser.</p>
+
+<p>A new install contacts nothing at all. It starts on a clock the app draws itself, out of the app, and it stays there until you give it a website.</p>
 
 <p>It does keep things <strong>on your phone</strong>: your settings, which page the wallpaper was showing, a small diagnostic log, and a small preview image of each page for the settings screen. All of it sits in the app's own private storage, where other apps cannot read it. All of it is deleted when you uninstall. None of it is ever sent anywhere.</p>
 
@@ -111,6 +115,14 @@
 <p>Nothing is ever sent anywhere on its own. The app's Diagnostics screen has buttons that copy text to your clipboard — the app's settings and state, the page diary, and any reports you filed — so that <strong>you</strong> can paste it into an email if you decide to ask for help.</p>
 
 <p>Those copies include your site names and their addresses. <strong>None of them ever includes your saved passwords or any cookie.</strong></p>
+
+<h2>What a new install shows before you choose anything</h2>
+
+<p>The wallpaper has to show something from the moment it is switched on, and what it shows is a <strong>clock drawn by the app itself</strong>. It is part of the app, the same way its own screens are: there is no address behind it and nothing is fetched to draw it. If you install Inanis Wallscape, tap "Skip setup" and never open it again, your phone never contacts anybody on its account.</p>
+
+<p>The first-run screen that asks which website you want starts with an <strong>empty</strong> address box. Underneath it are three examples. The first, "Built-in clock", is that same local page. The other two are ordinary public websites, and tapping one is what loads it — nothing beside that box is fetched until you tap it, and the screen says which of the three leave your phone.</p>
+
+<p>Earlier versions of the app seeded a public clock website instead, so a brand new install made a request to a company its owner had never named. That is no longer the case as of the current version.</p>
 
 <h2>The websites you choose to display</h2>
 
@@ -153,6 +165,14 @@
 <p>Inanis Wallscape offers one optional one-time purchase, "Pro". It is handled entirely by Google Play. The app never sees or stores a payment method, and there is no account to create.</p>
 
 <p>What it keeps is a single yes or no: whether Play said you own it. That is saved on your phone so Pro keeps working at startup and while you are offline.</p>
+
+<h3>What Google's billing library sends, on its own</h3>
+
+<p>To offer a purchase at all, the app has to include Google's <strong>Play Billing Library</strong>. That library carries its own diagnostic logging, which sends records about the billing library's operation to Google over an encrypted connection. We did not add it, we cannot turn it off, and none of it comes to us — it goes to Google and is covered by <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>.</p>
+
+<p>It is mentioned here because it is the only thing in the app that sends anything anywhere other than the websites you chose, and because Google Play's rules count it as data the app collects even though the developer receives none of it. That is why the app's Data safety listing on Google Play declares <strong>Purchase history</strong> and <strong>Diagnostics</strong> rather than "no data collected".</p>
+
+<p>The library's logging runs whenever the app talks to Google Play about purchases. It does not read your settings, your sites, your passwords, or anything else in this document.</p>
 
 <h2>Children</h2>
 
@@ -254,6 +274,29 @@
 <ul><li><strong>Copy diagnostics</strong> — device model, Android version, launcher package, the app's settings and live state, and site names with their full addresses.</li><li><strong>Copy log</strong> — <code>page_landmarks.log</code> followed by <code>page_events.log</code>.</li><li><strong>Copy mismatch reports</strong> — the contents of <code>page_mismatches.json</code>.</li></ul>
 
 <p>None of the three reads <code>webwall_secrets.xml</code>, and none contains a cookie.</p>
+
+<h3>The Play Billing library's own logging</h3>
+
+<p>The one thing in the app that sends anything to anyone other than a website the user chose, and the reason the Play listing declares "Purchase history" and "Diagnostics". Read out of <code>com.android.billingclient:billing:9.1.0</code> and the shipped dex on 18 November 2026:</p>
+
+<ul><li><code>com.android.billingclient.api.zzdt</code> initialises Google's <code>TransportRuntime</code>, builds a transport for <code>CCTDestination</code> — Cloud Client Telemetry — under the log source <strong><code>PLAY_BILLING_LIBRARY</code></strong>, and sends events through it.</li><li>The transport and its backend, <code>com.google.android.datatransport</code>, are <strong>transitive dependencies of the billing library</strong>. Nothing in <code>app/src/main/java</code> refers to them; the app has no code that logs anything anywhere.</li><li>The destination is Google, over TLS: <code>https://firebaselogging.googleapis.com/v0cc/log/batch</code> and <code>https://firebaselogging-pa.googleapis.com/v1/firelog/legacy/batchlog</code>.</li><li>It needs no permission the app did not already declare — <code>INTERNET</code> and <code>ACCESS_NETWORK_STATE</code> — which is why it is not visible in the permission list above.</li></ul>
+
+<p>The developer has no access to any of it and no way to switch it off short of removing the purchase from the app.</p>
+
+<h3>The built-in page, and the only addresses in the binary</h3>
+
+<p>The default page is not a URL. <code>Prefs.DEFAULT_URL</code> is the sentinel <code>webwall://clock</code>, which no component on Android can resolve; <code>WebPageController.loadNow</code> recognises it and renders a string constant with <code>loadDataWithBaseURL(null, …)</code>, so the document has no origin, no storage and no way to make a request. It is never passed to <code>loadUrl</code>. The page itself contains no <code>http://</code>, no <code>https://</code>, no <code>src=</code>, no <code>@import</code> and no <code>url(</code> — checked by a test rather than by reading it (<code>BuiltInPageTest</code>).</p>
+
+<p>After that change, <strong>two</strong> third-party web addresses are written into the app's own code, and both are example buttons on the first-run screen that fetch nothing until tapped:</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Address</th><th>Where</th></tr></thead>
+<tbody>
+<tr><td><code>https://text.npr.org</code></td><td>the "News" example</td></tr>
+<tr><td><code>https://wttr.in</code></td><td>the "Weather" example</td></tr>
+</tbody></table></div>
+
+<p>A third, <code>https://time.is</code>, was the seeded default in earlier versions and is gone. One more address appears as text — <code>https://example.com</code>, the grey placeholder inside the empty address box — and is never loaded. (This counts addresses the app itself can navigate to. Google's own libraries contain their own service endpoints; see the data safety notes in <code>docs/play-listing.md</code>.)</p>
 
 <h3>Cleartext HTTP</h3>
 
