@@ -64,7 +64,7 @@
 <h1>Inanis Wallscape — Privacy Policy</h1>
 <div class="meta">
   <div><strong>Effective:</strong> 15 November 2026</div>
-  <div><strong>Last revised:</strong> 18 November 2026</div>
+  <div><strong>Last revised:</strong> 19 November 2026</div>
   <div><strong>Application:</strong> Inanis Wallscape (<code>com.cavaeinanis.wallscape</code>)</div>
   <div><strong>Developer:</strong> Cavae Inanis Labs</div>
   <div><strong>Contact:</strong> <a href="mailto:cavae.inanis@gmail.com">cavae.inanis@gmail.com</a></div>
@@ -108,13 +108,13 @@
 
 <p>This is the one stored thing that holds website content rather than settings, so it is worth saying plainly: if one of your pages shows a dashboard with personal information on it, a small, low-resolution picture of that dashboard is saved in the app's private storage, so the settings screen can preview each page.</p>
 
-<p>They are only taken while the wallpaper is actually on screen, at most once a minute per page, and never for pages set to show a picture or nothing. A page's preview is deleted as soon as you change what that page shows, and all of them go when you uninstall.</p>
+<p>They are taken two ways, and never for pages set to show a picture or nothing. The wallpaper saves one from the page it is already drawing, at most once a minute per page and only while the wallpaper is actually on screen. The settings screen also loads a page itself to make a tile when there is no preview for it yet, or the one there is has aged past six hours — at most six pages each time you open that screen, never in the background and never in power-save mode. A page's preview is deleted as soon as you change what that page shows, and all of them go when you uninstall.</p>
 
 <h3>If you choose to send a support email</h3>
 
 <p>Nothing is ever sent anywhere on its own. The app's Diagnostics screen has buttons that copy text to your clipboard — the app's settings and state, the page diary, and any reports you filed — so that <strong>you</strong> can paste it into an email if you decide to ask for help.</p>
 
-<p>Those copies include your site names and their addresses. <strong>None of them ever includes your saved passwords or any cookie.</strong></p>
+<p>Those copies include your site names and their addresses, and — if you have used the in-app sign-in browser — the hostnames it moved between while you signed in, which can include the identity provider your sites use. Hostnames only, never the full addresses. <strong>None of them ever includes your saved passwords or any cookie.</strong></p>
 
 <h2>What a new install shows before you choose anything</h2>
 
@@ -127,6 +127,8 @@
 <h2>The websites you choose to display</h2>
 
 <p>When Inanis Wallscape shows a website, your phone contacts that website. The site sees what it would see from any browser: your IP address, which browser engine you are using, and any cookies you already had with it. Inanis Wallscape adds nothing to those requests and does not watch them on your behalf. Those sites have their own privacy policies.</p>
+
+<p>Two parts of the app load a site: the wallpaper itself, and the settings screen, which loads a page once to make the small preview image on its tile when there is no recent one. That is the same request the wallpaper makes, to the same address, and it happens at most six times per visit to that screen — never in the background, and never in power-save mode.</p>
 
 <p>Each site has an optional <strong>Block ads and trackers</strong> setting, off by default, which refuses to load requests to a built-in list of advertising and analytics domains.</p>
 
@@ -250,10 +252,10 @@
 <tbody>
 <tr><td><code>shared_prefs/webwall.xml</code> → <code>config_json</code></td><td>Site addresses, per-site settings, per-page setup, and the content URIs of any pictures you chose</td></tr>
 <tr><td><code>shared_prefs/webwall_secrets.xml</code></td><td>HTTP Basic Auth username and password per site — <code>EncryptedSharedPreferences</code>, AES-256-GCM, key held in the Android Keystore. The file is created only if you enter credentials</td></tr>
-<tr><td><code>app_webview/</code></td><td>WebView's own cookies, local storage and cache for the sites displayed, including its own preference files</td></tr>
-<tr><td><code>files/page_thumbs/p&lt;N&gt;.webp</code></td><td>One snapshot per page, 324 px wide, WebP quality 72, at most one per page per 60 s, only while the wallpaper is visible, never for pages in picture or off mode. Deleted when that page's content changes, and trimmed when the page count shrinks</td></tr>
-<tr><td><code>files/page_events.log</code></td><td>The last 500 page-tracking events: page changes and which source reported them, swipe geometry (start coordinates, distance, duration, speed), Home presses, wallpaper shown/hidden, screen on/off</td></tr>
-<tr><td><code>files/page_landmarks.log</code></td><td>The last 400 of the events above that matter for diagnosis — engine restarts, page changes, resyncs — kept in a separate buffer so routine swipe chatter cannot push them out</td></tr>
+<tr><td><code>app_webview/</code></td><td>WebView's own cookies, local storage and cache, including its own preference files. For the sites displayed, and — if you sign in through the in-app browser — for every origin that sign-in passes through, which for a single-sign-on login includes your identity provider. One store, shared by the wallpaper and the in-app browser: that sharing is what makes a sign-in done once apply to the wallpaper afterwards</td></tr>
+<tr><td><code>files/page_thumbs/p&lt;N&gt;.webp</code></td><td>One snapshot per page, 324 px wide, WebP quality 72, never for pages in picture or off mode. Written two ways: by the wallpaper, from the page it is already drawing, at most once per page per 60 s and only while the wallpaper is visible; and by the settings screen, which loads a page itself to render a tile when there is no snapshot for it or the one there is has aged past six hours — at most six pages per visit to that screen, never in power-save mode. Deleted when that page's content changes, and trimmed when the page count shrinks</td></tr>
+<tr><td><code>files/page_events.log</code></td><td>The last 500 page-tracking events: page changes and which source reported them, swipe geometry (start coordinates, distance, duration, speed), Home presses, wallpaper shown/hidden, screen on/off. Also the sign-in events below</td></tr>
+<tr><td><code>files/page_landmarks.log</code></td><td>The last 400 of the events above that matter for diagnosis — engine restarts, page changes, resyncs — kept in a separate buffer so routine swipe chatter cannot push them out. Also sign-in events: when the in-app sign-in browser moves between origins, and when it corrects a failed sign-in. <strong>Origins only</strong> — <code>https://example.com</code>, scheme and host and port and nothing after. Never a full address, because a sign-in address's path and query carry the one-time codes the sign-in is made of</td></tr>
 <tr><td><code>files/page_mismatches.json</code></td><td>Up to 80 user-filed mismatch reports, each with the page shown, the page corrected to, and the 30 preceding log events. Created only if the two-finger-tap gesture is used</td></tr>
 <tr><td><code>shared_prefs/webwall.xml</code> → page state</td><td><code>last_page</code>, <code>last_page_source</code>, <code>last_page_at</code>, <code>last_page_boot</code></td></tr>
 <tr><td><code>shared_prefs/webwall.xml</code> → launcher facts</td><td><code>offsets_supported</code>, <code>detected_page_count</code></td></tr>
